@@ -1,15 +1,14 @@
-package com.example.demo.post;
+package com.example.demo.services;
 
-import com.example.demo.user.UserRepository;
+import com.example.demo.models.post.Post;
+import com.example.demo.repo.PostRepository;
+import com.example.demo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class PostService {

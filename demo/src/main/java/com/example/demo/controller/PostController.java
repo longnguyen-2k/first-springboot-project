@@ -1,12 +1,15 @@
-package com.example.demo.post;
+package com.example.demo.controller;
 
+import com.example.demo.models.post.Post;
+import com.example.demo.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
+//@RestController
 @RequestMapping(path = "api/posts")
 public class PostController {
 
@@ -18,8 +21,9 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getPost(){
-        return postService.getPosts();
+    public String getPost(Model model){
+        model.addAttribute("posts",postService.getPosts());
+        return "view-posts";
     }
 
     @PostMapping
