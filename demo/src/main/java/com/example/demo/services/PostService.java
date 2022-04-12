@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
 import com.example.demo.models.post.Post;
-import com.example.demo.repo.PostRepository;
-import com.example.demo.repo.UserRepository;
+import com.example.demo.services.repo.PostRepository;
+import com.example.demo.services.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

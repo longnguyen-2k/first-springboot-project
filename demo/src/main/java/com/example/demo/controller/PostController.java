@@ -4,16 +4,20 @@ import com.example.demo.models.post.Post;
 import com.example.demo.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-//@RestController
+@RestController
 @RequestMapping(path = "api/posts")
 public class PostController {
 
     private final PostService postService;
+
+    @Autowired
+    private KafkaTemplate<String,String> kafkaTemplate;
 
     @Autowired
     public PostController(PostService postService){
@@ -29,6 +33,7 @@ public class PostController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Post createPost(@RequestBody  Post post){
+        this.kafkaTemplate.send("shin-events",post.getMessage());
         return  postService.createPost(post);
     }
 

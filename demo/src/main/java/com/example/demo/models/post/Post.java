@@ -9,10 +9,11 @@ public class Post {
     public Post() {
     }
 
-    public Post( String title, String content, Long user_id) {
+    public Post( String title, String content, Long user_id,String message) {
         this.title = title;
         this.content = content;
         this.user_id = user_id;
+        this.message = message;
     }
 
     @Id
@@ -30,9 +31,17 @@ public class Post {
     private String title;
     private String content;
     private Long user_id;
-
+    private String message;
     public Long getId() {
         return id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getTitle() {
