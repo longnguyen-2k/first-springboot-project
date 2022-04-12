@@ -1,6 +1,6 @@
-package com.example.demo.services.repo;
+package com.example.demo.dao;
 
-import com.example.demo.models.post.Post;
+import com.example.demo.entity.post.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

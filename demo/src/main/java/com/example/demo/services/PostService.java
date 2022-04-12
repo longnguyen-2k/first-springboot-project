@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.models.post.Post;
-import com.example.demo.services.repo.PostRepository;
-import com.example.demo.services.repo.UserRepository;
+import com.example.demo.entity.post.Post;
+import com.example.demo.dao.PostRepository;
+import com.example.demo.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class PostService {
     }
 
     public Post createPost(Post post) {
-        boolean isExist = userRepository.existsById(post.getUser_id());
+        boolean isExist = userRepository.existsById(post.getUserId());
         if (!isExist){
             throw  new IllegalStateException("User not found");
         }
@@ -43,10 +43,10 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(Long postId, String title, String content,Long user_id) {
+    public void updatePost(Long postId, String title, String content,Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(()->new IllegalStateException("Post with id "+ postId+ " does not exist"));
 
-        if (user_id!=post.getUser_id()){
+        if (userId!=post.getUserId()){
             throw new IllegalStateException("User are not owner post of id "+postId);
         }
 

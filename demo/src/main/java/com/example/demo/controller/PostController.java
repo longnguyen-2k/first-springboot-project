@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.models.post.Post;
+import com.example.demo.entity.post.Post;
 import com.example.demo.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +8,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RestController
@@ -25,9 +27,10 @@ public class PostController {
     }
 
     @GetMapping
-    public String getPost(Model model){
-        model.addAttribute("posts",postService.getPosts());
-        return "view-posts";
+    public List<Post> getPost(Model model){
+//        model.addAttribute("posts",postService.getPosts());
+//        return "view-posts";
+        return  postService.getPosts();
     }
 
     @PostMapping
