@@ -12,7 +12,7 @@ public class Post implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(
-            strategy = GenerationType.AUTO
+            strategy = GenerationType.IDENTITY
     )
     private Long id;
 

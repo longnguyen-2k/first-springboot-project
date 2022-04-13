@@ -8,10 +8,10 @@ import java.io.Serializable;
 public class ImageEntity implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "image_type",columnDefinition = "enum('ADMIN','USER')")
+    @Column(name = "image_type",columnDefinition = "enum('POST','GROUP','USER')")
     @Enumerated(EnumType.STRING)
     private ImageType imageType;
 

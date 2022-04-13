@@ -4,9 +4,13 @@ import com.example.demo.entity.post.Post;
 import com.example.demo.dao.PostRepository;
 import com.example.demo.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +26,10 @@ public class PostService {
         this.userRepository = userRepository;
     }
 
-    public List<Post> getPosts() {
-        return postRepository.findAll();
+    public List<Post> getPostsPaginate( int limit,int offset) {
+        Pageable paging = (Pageable) PageRequest.of(offset,limit);
+        Page<Post>  result = postRepository.findAll( paging);
+        return result.toList();
     }
 
     public Post createPost(Post post) {

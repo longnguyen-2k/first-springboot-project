@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.post.Post;
 import com.example.demo.services.PostService;
+import com.mysql.cj.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
 @RestController
@@ -27,10 +30,14 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getPost(Model model){
+    public List<Post> getPost(@RequestParam(required = false)Integer offset,@RequestParam(required = false)Integer limit){
 //        model.addAttribute("posts",postService.getPosts());
 //        return "view-posts";
-        return  postService.getPosts();
+        Logger logger
+                = Logger.getLogger(
+                PostController.class.getName());
+        logger.log(Level.INFO,"Thí is Log "+String.valueOf(limit));
+        return  postService.getPostsPaginate(offset!=null?offset:1,limit!=null?limit:20);
     }
 
     @PostMapping

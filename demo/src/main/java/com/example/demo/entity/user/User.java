@@ -7,9 +7,10 @@ import java.io.Serializable;
 @Table(name = "users")
 public class User implements Serializable {
 
+    @Column(name = "id")
     @Id
     @GeneratedValue(
-            strategy = GenerationType.AUTO
+            strategy = GenerationType.IDENTITY
     )
     private Long id;
     @Column(name = "user_name")
@@ -124,10 +125,6 @@ public class User implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 
