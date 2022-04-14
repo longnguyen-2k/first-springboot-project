@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.controller.PostController;
 import com.example.demo.entity.post.Post;
 import com.example.demo.dao.PostRepository;
 import com.example.demo.dao.UserRepository;
@@ -13,6 +14,8 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class PostService {
@@ -26,9 +29,15 @@ public class PostService {
         this.userRepository = userRepository;
     }
 
-    public List<Post> getPostsPaginate( int limit,int offset) {
-        Pageable paging = (Pageable) PageRequest.of(offset,limit);
-        Page<Post>  result = postRepository.findAll( paging);
+    public List<Post> getPostsPaginate(int offset, int limit) {
+
+        Pageable paging = PageRequest.of(offset,limit);
+        Page<Post>  result = postRepository.findAll(paging);
+        Logger logger
+                = Logger.getLogger(
+                PostService.class.getName());
+        logger.log(Level.WARNING, "This is Log " + result);
+
         return result.toList();
     }
 

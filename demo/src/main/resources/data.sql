@@ -28,12 +28,18 @@ insert into posts (title,content,user_id,author_avatar,image_id,user_name,group_
 insert into posts (title,content,user_id,author_avatar,image_id,user_name,group_id,blocked,expired,hide_name,coins,is_fee,message,library_id) values ('title 8','content 8',1,'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fgetdrawings.com%2Ffree-icon-bw%2Fanonymous-avatar-icon-19.png&f=1&nofb=1',1,'user_name',1,1,3213213213,1,0,0,'message 8',1);
 
 
+insert into image_types(image_type) values ('POST');
+insert into image_types(image_type) values ('GROUP');
+insert into image_types(image_type) values ('POST');
+insert into image_types(image_type) values ('POST');
+insert into image_types(image_type) values ('POST');
+insert into image_types(image_type) values ('GROUP');
 
-insert into images(image_type,parent_id) values ('POST',1);
-insert into images(image_type,parent_id) values ('GROUP',1);
-insert into images(image_type,parent_id) values ('POST',2);
-insert into images(image_type,parent_id) values ('POST',3);
-insert into images(image_type,parent_id) values ('POST',4);
-insert into images(image_type,parent_id) values ('POST',5);
-insert into images(image_type,parent_id) values ('GROUP',2);
+insert into images(image_type_id) values (1);
+insert into images(image_type_id) values (3);
+insert into images(image_type_id) values (2);
+insert into images(image_type_id) values (3);
+insert into images(image_type_id) values (4);
+insert into images(image_type_id) values (5);
+insert into images(image_type_id) values (2);
 

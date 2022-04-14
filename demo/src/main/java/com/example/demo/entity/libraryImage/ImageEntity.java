@@ -2,6 +2,7 @@ package com.example.demo.entity.libraryImage;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name =  "images")
@@ -11,34 +12,22 @@ public class ImageEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "image_type",columnDefinition = "enum('POST','GROUP','USER')")
-    @Enumerated(EnumType.STRING)
-    private ImageType imageType;
+    @JoinColumn(name = "image_type_id")
+    @ManyToOne
+    private ImageTypeEntity imageTypeEntity;
 
-    @Column(name = "parent_id")
-    private Long parentId;
-
-    public ImageEntity(ImageType imageType, Long parentId) {
-        this.imageType = imageType;
-        this.parentId = parentId;
+    public ImageEntity(ImageTypeEntity imageTypeEntities) {
+        this.imageTypeEntity = imageTypeEntities;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public ImageTypeEntity getImageTypeEntities() {
+        return imageTypeEntity;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setImageTypeEntities(ImageTypeEntity imageTypeEntity) {
+        this.imageTypeEntity = imageTypeEntity;
     }
 
     public ImageEntity() {
-    }
-
-    public ImageType getImageType() {
-        return imageType;
-    }
-
-    public void setImageType(ImageType imageType) {
-        this.imageType = imageType;
     }
 }

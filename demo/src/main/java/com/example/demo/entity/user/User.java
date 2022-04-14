@@ -1,7 +1,10 @@
 package com.example.demo.entity.user;
 
+import com.example.demo.entity.post.Post;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -31,13 +34,15 @@ public class User implements Serializable {
     private Long balance;
     @Column(name = "blocked")
     private Boolean blocked;
-
     @Column(columnDefinition = "enum('ADMIN','USER')")
     @Enumerated(EnumType.STRING)
     private UserRoleType role;
-
     private String description;
     private String avatar;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> post;
+
 
     public String getAddress() {
         return address;

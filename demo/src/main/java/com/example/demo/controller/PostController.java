@@ -22,38 +22,40 @@ public class PostController {
     private final PostService postService;
 
     @Autowired
-    private KafkaTemplate<String,String> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    public PostController(PostService postService){
+    public PostController(PostService postService) {
         this.postService = postService;
     }
 
     @GetMapping
-    public List<Post> getPost(@RequestParam(required = false)Integer offset,@RequestParam(required = false)Integer limit){
+    public List<Post> getPost(@RequestParam(required = false) Integer offset, @RequestParam(required = false) Integer limit) {
 //        model.addAttribute("posts",postService.getPosts());
-//        return "view-posts";
-        Logger logger
-                = Logger.getLogger(
-                PostController.class.getName());
-        logger.log(Level.INFO,"Thí is Log "+String.valueOf(limit));
-        return  postService.getPostsPaginate(offset!=null?offset:1,limit!=null?limit:20);
+//           return "view-posts";
+        if (offset == null || offset < 0) {
+            offset = 0;
+        }
+        if (limit == null || limit < 20) {
+            limit = 20;
+        }
+        return postService.getPostsPaginate(offset, limit);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Post createPost(@RequestBody  Post post){
-        this.kafkaTemplate.send("shin-events",post.getMessage());
-        return  postService.createPost(post);
+    public Post createPost(@RequestBody Post post) {
+        this.kafkaTemplate.send("shin-events", post.getMessage());
+        return postService.createPost(post);
     }
 
     @DeleteMapping(path = "{postId}")
-    public void deletePost(@PathVariable("postId") Long postId){
+    public void deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
     }
 
     @PutMapping(path = "{postId}")
-    public void updatePost(@PathVariable("postId") Long postId,@RequestParam(required = false) String title, @RequestParam(required = false) String content,@RequestParam(required = true) Long user_id){
-        postService.updatePost(postId,title,content,user_id);
+    public void updatePost(@PathVariable("postId") Long postId, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = true) Long user_id) {
+        postService.updatePost(postId, title, content, user_id);
     }
 }

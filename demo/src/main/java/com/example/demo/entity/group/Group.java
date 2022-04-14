@@ -3,6 +3,7 @@ package com.example.demo.entity.group;
 import com.example.demo.entity.libraryImage.ImageType;
 
 import javax.persistence.*;
+import javax.security.auth.Subject;
 import java.io.Serializable;
 
 @Entity
@@ -13,9 +14,11 @@ public class Group  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String group_name;
+    @Column(name = "group_name")
+    private String groupName;
 
-    private String subject_id;
+    @ManyToOne
+    private SubjectEntity subject;
     @Column(name = "image_id")
     private Long avatar;
     @Column(name = "blocked")
@@ -26,29 +29,28 @@ public class Group  implements Serializable {
     public Group() {
     }
 
-    public Group(Long id, String group_name, String subject_id, Long avatar, Boolean blocked, Boolean isPrivate) {
+    public Group(Long id, String groupName, Long avatar, Boolean blocked, Boolean isPrivate) {
         this.id = id;
-        this.group_name = group_name;
-        this.subject_id = subject_id;
+        this.groupName = groupName;
         this.avatar = avatar;
         this.blocked = blocked;
         this.isPrivate = isPrivate;
     }
 
-    public String getGroup_name() {
-        return group_name;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroup_name(String group_name) {
-        this.group_name = group_name;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
-    public String getSubject_id() {
-        return subject_id;
+    public SubjectEntity getSubject() {
+        return subject;
     }
 
-    public void setSubject_id(String subject_id) {
-        this.subject_id = subject_id;
+    public void setSubject(SubjectEntity subject) {
+        this.subject = subject;
     }
 
     public Long getAvatar() {

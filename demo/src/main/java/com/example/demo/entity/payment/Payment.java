@@ -1,5 +1,7 @@
 package com.example.demo.entity.payment;
 
+import com.example.demo.entity.user.User;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -29,6 +31,9 @@ public class Payment implements Serializable {
     private Integer resultCode;
     @Column(name = "display_name")
     private String displayName;
+
+    @ManyToOne
+    private User user;
     public Payment() {
     }
     public Payment(Long id, Long requestId, Long orderId, Long amount, String phone, Long accountBalance, String message, Integer resultCode, String displayName, TypeTransfer typeTransfer) {

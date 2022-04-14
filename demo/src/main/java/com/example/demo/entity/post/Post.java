@@ -1,5 +1,7 @@
 package com.example.demo.entity.post;
 
+import com.example.demo.entity.user.User;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -20,8 +22,10 @@ public class Post implements Serializable {
     private String title;
     @Column(name = "content")
     private String content;
-    @Column(name = "user_id")
-    private Long userId;
+
+    @ManyToOne
+    private User user;
+
     @Column(name = "author_avatar")
     private String authorAvatar;
     @Column(name ="image_id")
@@ -158,12 +162,9 @@ public class Post implements Serializable {
     }
 
     public Long getUserId() {
-        return userId;
+        return user.getId();
     }
 
-    public void setUser_id(Long userId) {
-        this.userId = userId;
-    }
 
     @Override
     public String toString() {
@@ -171,7 +172,7 @@ public class Post implements Serializable {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", user_id='" + userId + '\'' +
+                ", user_id='" + user.getId() + '\'' +
                 '}';
     }
 }
