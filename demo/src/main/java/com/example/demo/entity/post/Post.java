@@ -4,6 +4,7 @@ import com.example.demo.entity.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.List;
 
 @Entity
@@ -172,7 +173,6 @@ public class Post implements Serializable {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", user_id='" + user.getId() + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.post.Post;
+import com.example.demo.entity.user.User;
 import com.example.demo.services.PostService;
 import com.mysql.cj.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,31 +32,29 @@ public class PostController {
 
     @GetMapping
     public List<Post> getPost(@RequestParam(required = false) Integer offset, @RequestParam(required = false) Integer limit) {
-//        model.addAttribute("posts",postService.getPosts());
-//           return "view-posts";
         if (offset == null || offset < 0) {
             offset = 0;
         }
         if (limit == null || limit < 20) {
             limit = 20;
         }
-        return postService.getPostsPaginate(offset, limit);
+        return postService.gets(offset, limit);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Post createPost(@RequestBody Post post) {
         this.kafkaTemplate.send("shin-events", post.getMessage());
-        return postService.createPost(post);
+        return postService.create(post);
     }
 
     @DeleteMapping(path = "{postId}")
     public void deletePost(@PathVariable("postId") Long postId) {
-        postService.deletePost(postId);
+        postService.delete(postId);
     }
 
     @PutMapping(path = "{postId}")
-    public void updatePost(@PathVariable("postId") Long postId, @RequestParam(required = false) String title, @RequestParam(required = false) String content, @RequestParam(required = true) Long user_id) {
-        postService.updatePost(postId, title, content, user_id);
+    public Post updatePost(  @PathVariable("postId") Long postId,@RequestBody Post post) {
+       return postService.update(postId,post);
     }
 }
