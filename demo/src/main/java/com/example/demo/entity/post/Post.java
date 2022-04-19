@@ -1,11 +1,16 @@
 package com.example.demo.entity.post;
 
+import com.example.demo.entity.group.Group;
+import com.example.demo.entity.libraryImage.ImageEntity;
 import com.example.demo.entity.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @Entity
 @Table(name = "posts")
@@ -23,18 +28,12 @@ public class Post implements Serializable {
     private String title;
     @Column(name = "content")
     private String content;
-
     @ManyToOne
     private User user;
-
-    @Column(name = "author_avatar")
-    private String authorAvatar;
-    @Column(name ="image_id")
-    private Long imageId;
-    @Column(name = "user_name")
-    private String userName;
-    @Column(name = "group_id")
-    private Long groupId;
+    @OneToMany(mappedBy = "post")
+    private List<ImageEntity> images;
+    @ManyToOne
+    private Group group;
     @Column(name = "blocked")
     private Boolean blocked;
     @Column(name = "expired")
@@ -47,48 +46,20 @@ public class Post implements Serializable {
     private Boolean isFee;
     @Column(name = "message")
     private String message;
-    @Column(name = "library_id")
-    private Long libraryId;
-
 
     public Long getId() {
         return id;
     }
 
 
-
-
-    public String getAuthorAvatar() {
-        return authorAvatar;
+    public List<ImageEntity> getImages() {
+        return images;
     }
 
-    public void setAuthorAvatar(String authorAvatar) {
-        this.authorAvatar = authorAvatar;
+    public void setImages(List<ImageEntity> images) {
+        this.images = images;
     }
 
-    public Long getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(Long imageId) {
-        this.imageId = imageId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
 
     public Boolean getBlocked() {
         return blocked;
@@ -138,12 +109,18 @@ public class Post implements Serializable {
         this.message = message;
     }
 
-    public Long getLibraryId() {
-        return libraryId;
+    public Long getUserId() {
+        return user.getId();
     }
 
-    public void setLibraryId(Long libraryId) {
-        this.libraryId = libraryId;
+    public Map<String,String> getOwnerInfo(){
+        Map<String,String> map = new HashMap<>();
+        map.put("userName",user.getUserName());
+        map.put("userAvatar",user.getAvatar());
+        return map;
+    }
+    public Long getGroupId() {
+        return group.getId();
     }
 
     public String getTitle() {
@@ -160,10 +137,6 @@ public class Post implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Long getUserId() {
-        return user.getId();
     }
 
 

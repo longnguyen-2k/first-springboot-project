@@ -1,10 +1,12 @@
 package com.example.demo.entity.group;
 
 import com.example.demo.entity.libraryImage.ImageType;
+import com.example.demo.entity.post.Post;
 
 import javax.persistence.*;
 import javax.security.auth.Subject;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "group_posts")
@@ -26,6 +28,8 @@ public class Group  implements Serializable {
     @Column(name = "is_private")
     private Boolean isPrivate;
 
+    @OneToMany(mappedBy = "group")
+    private List<Post> posts;
     public Group() {
     }
 

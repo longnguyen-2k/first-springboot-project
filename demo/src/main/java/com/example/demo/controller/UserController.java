@@ -1,48 +1,48 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.post.Post;
 import com.example.demo.entity.user.User;
-import com.example.demo.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import com.example.demo.services.user.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/users")
-
+@RequiredArgsConstructor
 public class UserController {
-    private UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    @Autowired
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
 
     @GetMapping
     public List<User> getUsers(){
-        return userService.gets();
+        return userServiceImpl.gets();
+    }
+    @GetMapping(path = "{userId}/posts")
+    public List<Post> getPostsHasRelationship(@PathVariable("userId") Long userId){
+        return userServiceImpl.getPostsHasRelationship(userId);
     }
     @GetMapping(path = "{userId}")
     public User getUser(@PathVariable("userId") Long userId){
-        return  userService.getById(userId);
+        return  userServiceImpl.getById(userId);
     }
     @PostMapping
     public  User createUser(@RequestBody User user){
-        return  userService.create(user);
+        return  userServiceImpl.create(user);
     }
 
     @PutMapping(path = "{userId}")
     public  User  updateUser(@PathVariable("userId")Long userId,@RequestBody User user){
-        return  userService.update(userId, user);
+        return  userServiceImpl.update(userId, user);
     }
     @PutMapping(path = "{userId}/change-password")
     public  void  updatePassword(@PathVariable("userId")Long userId,@RequestParam String oldPassword,@RequestParam String newPassword ){
-        userService.changePassword(userId, oldPassword,newPassword);
+        userServiceImpl.changePassword(userId, oldPassword,newPassword);
     }
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@PathVariable("userId") Long userId){
-        userService.deleteUser(userId);
+        userServiceImpl.deleteUser(userId);
     }
 
 }

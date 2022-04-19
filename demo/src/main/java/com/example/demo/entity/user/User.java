@@ -1,6 +1,7 @@
 package com.example.demo.entity.user;
 
 import com.example.demo.entity.post.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,19 +17,21 @@ public class User implements Serializable {
             strategy = GenerationType.IDENTITY
     )
     private Long id;
+
     @Column(name = "user_name")
     private String userName;
-    @Column(name = "password")
+    @JsonIgnore
+    @Column(name = "password",nullable = false)
     private String password;
-    @Column(name = "email")
+    @Column(name = "email",unique = true,nullable = false)
     private String email;
-    @Column(name = "full_name")
+    @Column(name = "full_name",nullable = false)
     private String fullName;
-    @Column(name = "address")
+    @Column(name = "address",length = 511)
     private String address;
     @Column(name = "payment_id")
     private Long paymentId;
-    @Column(name = "phone")
+    @Column(name = "phone",unique = true)
     private String phone;
     @Column(name = "balance")
     private Long balance;
@@ -37,9 +40,12 @@ public class User implements Serializable {
     @Column(columnDefinition = "enum('ADMIN','USER')")
     @Enumerated(EnumType.STRING)
     private UserRoleType role;
+    @Column(name = "description")
     private String description;
+    @Column(name = "avatar", length = 511)
     private String avatar;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Post> post;
 
@@ -67,6 +73,10 @@ public class User implements Serializable {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public List<Post> getPost() {
+        return post;
     }
 
     public Boolean getBlocked() {
@@ -103,7 +113,7 @@ public class User implements Serializable {
     }
 
     public User( String userName, String password, String email, String fullName, String address, Long paymentId, String phone, Long balance,String description, String avatar) {
-        this.userName = userName;
+        this.userName = userName.strip().replaceAll("\\s+", "");
         this.password = password;
         this.email = email;
         this.fullName = fullName;

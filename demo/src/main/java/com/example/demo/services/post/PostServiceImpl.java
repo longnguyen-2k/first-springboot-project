@@ -1,11 +1,12 @@
-package com.example.demo.services;
+package com.example.demo.services.post;
 
 import com.example.demo.entity.post.Post;
 import com.example.demo.dao.PostRepository;
 import com.example.demo.dao.UserRepository;
+import com.example.demo.services.Modifiable;
 import com.example.demo.util.FieldCopyUtil;
 import com.example.demo.util.Log;
-import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,16 +19,11 @@ import org.springframework.data.domain.Pageable;
 import java.util.*;
 
 @Service
-public class PostService implements  Modifiable<Post>{
+@RequiredArgsConstructor
+public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-
-    @Autowired
-    public PostService(PostRepository repository, UserRepository userRepository) {
-        this.postRepository = repository;
-        this.userRepository = userRepository;
-    }
 
 
     @Override
