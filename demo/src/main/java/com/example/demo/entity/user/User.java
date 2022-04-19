@@ -2,6 +2,7 @@ package com.example.demo.entity.user;
 
 import com.example.demo.entity.post.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,9 +19,10 @@ public class User implements Serializable {
     )
     private Long id;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name",unique = true,nullable = false)
     private String userName;
-    @JsonIgnore
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password",nullable = false)
     private String password;
     @Column(name = "email",unique = true,nullable = false)
@@ -37,9 +39,11 @@ public class User implements Serializable {
     private Long balance;
     @Column(name = "blocked")
     private Boolean blocked;
-    @Column(columnDefinition = "enum('ADMIN','USER')")
+
+    @Column(columnDefinition = "varchar(255) default 'USER'")
     @Enumerated(EnumType.STRING)
     private UserRoleType role;
+
     @Column(name = "description")
     private String description;
     @Column(name = "avatar", length = 511)
@@ -87,8 +91,8 @@ public class User implements Serializable {
         this.blocked = blocked;
     }
 
-    public String getRole() {
-        return role.name();
+    public UserRoleType getRole() {
+        return role;
     }
 
 
@@ -129,7 +133,7 @@ public class User implements Serializable {
 
 
 
-
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -163,6 +167,7 @@ public class User implements Serializable {
         this.paymentId = paymentId;
     }
 
+    @JsonIgnore
     public void setRole(UserRoleType role) {
         this.role = role;
     }

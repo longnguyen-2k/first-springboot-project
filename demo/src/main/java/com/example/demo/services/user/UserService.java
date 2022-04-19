@@ -11,4 +11,5 @@ public interface UserService extends Modifiable<User> {
     boolean changePassword(Long id, String oldPassword, String newPassword);
     List<Post> getPostsHasRelationship(Long userId);
     boolean login(String userName, String password);
+
 }

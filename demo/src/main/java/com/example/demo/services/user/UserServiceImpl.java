@@ -8,6 +8,8 @@ import com.example.demo.util.FieldCopyUtil;
 import com.example.demo.util.Log;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +21,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +56,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     public User create(User user) {
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("id")
+                .withMatcher("email", ignoreCase());
+//                .withMatcher("userName",ignoreCase())
+//                .withMatcher("phone",ignoreCase());
+        Example existsCondition= Example.of(user,matcher);
+        boolean isExists= userRepository.existsByUserNameOrEmailOrPhone(user.getUserName(),user.getEmail(),user.getPassword());
+        if (isExists){
+            throw  new IllegalStateException("Email or userName or phone is used");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -65,6 +79,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findByUserNameAndPassword(userName, password);
         return user != null;
     }
+
 
     @Transactional
     public User update(Long id, User user) {
